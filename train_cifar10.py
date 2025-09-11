@@ -58,7 +58,7 @@ optimizer = optim.Adam(model.parameters(), lr=1e-3)
 scaler = torch.cuda.amp.GradScaler(enabled=is_cuda)
 
 # ---- 4) Training loop
-epochs = 5
+epochs = 2
 for epoch in range(epochs):
     model.train()
     running = 0.0
