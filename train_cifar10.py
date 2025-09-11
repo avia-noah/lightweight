@@ -26,6 +26,7 @@ if is_cuda:
 transform = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+
 ])
 
 data_root = "./data"
@@ -94,20 +95,5 @@ for epoch in range(epochs):
     print(f"Epoch {epoch+1}/{epochs} - Loss: {running/len(trainloader):.4f}")
 
 # ---- 5) Evaluation
-model.eval()
-correct, total = 0, 0
-with torch.no_grad():
-    for images, labels in testloader:
-        if is_cuda:
-            images = images.to(device, non_blocking=True)
-            labels = labels.to(device, non_blocking=True)
-        else:
-            images = images.to(device)
-            labels = labels.to(device)
 
-        outputs = model(images)
-        _, predicted = torch.max(outputs, 1)
-        total += labels.size(0)
-        correct += (predicted == labels).sum().item()
 
-print(f"Accuracy: {100.0 * correct / total:.2f}%")
