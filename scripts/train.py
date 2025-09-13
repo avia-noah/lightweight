@@ -1,10 +1,13 @@
-import argparse, os, torch, torch.nn as nn
-from src.config import TrainConfig
-from src.utils.seed import set_seed
-from src.utils.device import pick_device, device_name
-from src.data.cifar10 import get_loaders
-from src.models.resnet import resnet18_cifar10
-from src.engine.train import make_optimizer, make_scheduler, train_one_epoch, evaluate
+import argparse, os, sys, torch, torch.nn as nn
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
+
+from config import TrainConfig
+from utils.seed import set_seed
+from utils.device import pick_device, device_name
+from data.cifar10 import get_loaders
+from models.resnet import resnet18_cifar10
+from engine.train import make_optimizer, make_scheduler, train_one_epoch, evaluate
 
 def parse_args():
     p = argparse.ArgumentParser()

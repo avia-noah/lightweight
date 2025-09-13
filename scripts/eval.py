@@ -1,8 +1,11 @@
-import argparse, torch, torch.nn as nn
-from src.utils.device import pick_device, device_name
-from src.data.cifar10 import get_loaders
-from src.models.resnet import resnet18_cifar10
-from src.engine.train import evaluate
+import argparse, os, sys, torch, torch.nn as nn
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
+
+from utils.device import pick_device, device_name
+from data.cifar10 import get_loaders
+from models.resnet import resnet18_cifar10
+from engine.train import evaluate
 
 def parse_args():
     p = argparse.ArgumentParser()
