@@ -1,5 +1,5 @@
-# Data directories
-data/
+# Data directories (raw data, not source code)
+/data/
 datasets/
 *.csv
 *.json
