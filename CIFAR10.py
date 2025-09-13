@@ -184,6 +184,8 @@ for epoch in range(start_epoch, num_epochs):
         f"Val Loss: {epoch_val_loss:.4f} Acc: {epoch_val_acc:.2f}% | LR: {current_lr:.6f}"
     )
 
+
+#%%
 # 5. Model Saving & Loading
 # Create models directory if it doesn't exist
 models_dir = './models'

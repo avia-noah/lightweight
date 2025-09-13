@@ -1,6 +1,14 @@
+
+#%%
+
 import argparse, os, sys, torch, torch.nn as nn
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
+if "__file__" in globals():
+    sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
+else:
+    # fallback: assume cwd is project root
+    sys.path.append(os.path.join(os.getcwd(), 'src'))
+
 
 from config import TrainConfig
 from utils.seed import set_seed
@@ -9,6 +17,9 @@ from data.cifar10 import get_loaders
 from models.resnet import resnet18_cifar10
 from engine.train import make_optimizer, make_scheduler, train_one_epoch, evaluate
 
+
+
+#%%
 def parse_args():
     p = argparse.ArgumentParser()
     p.add_argument("--data-root", type=str, default=TrainConfig.data_root)
@@ -22,8 +33,16 @@ def parse_args():
     p.add_argument("--amp", type=int, default=int(TrainConfig.amp))
     p.add_argument("--checkpoint", type=str, default=TrainConfig.checkpoint)
     p.add_argument("--subset", type=int, default=None)
-    return p.parse_args()
+    
+    # Only parse arguments if running from command line
+    try:
+        return p.parse_args()
+    except SystemExit:
+        # If running in Jupyter/IPython, return defaults
+        return p.parse_args([])
 
+
+#%%
 def main():
     args = parse_args()
     os.makedirs(os.path.dirname(args.checkpoint), exist_ok=True)
@@ -46,7 +65,8 @@ def main():
     scheduler = make_scheduler(optimizer, args.step_size, args.gamma)
 
     best_acc = 0.0
-    for epoch in range(1, args.epochs + 1):
+    epoch=1
+    for epoch in range(1, 2):#args.epochs + 1):
         tr_loss, tr_acc = train_one_epoch(model, train_loader, device, criterion, optimizer, amp=bool(args.amp))
         va_loss, va_acc = evaluate(model, test_loader, device, criterion)
         scheduler.step()
@@ -59,5 +79,11 @@ def main():
                         "val_acc": best_acc}, args.checkpoint)
             print(f"✓ Saved checkpoint → {args.checkpoint} (acc={best_acc:.4f})")
 
+#%%
 if __name__ == "__main__":
+    import warnings
+    # Suppress IPython exit warning
+    warnings.filterwarnings("ignore", message="To exit: use 'exit', 'quit', or Ctrl-D.")
     main()
+
+# %%
