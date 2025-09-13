@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.cuda.amp import GradScaler, autocast
 from tqdm import tqdm
-from ..utils.meter import AverageMeter
+from utils.meter import AverageMeter
 
 def make_optimizer(model, lr: float, weight_decay: float):
     return optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
