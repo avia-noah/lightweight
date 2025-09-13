@@ -4,3 +4,5 @@ matplotlib
 numpy
 tqdm
 scikit-learn
+ipywidgets
+jupyter
